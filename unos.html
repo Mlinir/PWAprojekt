@@ -1,0 +1,59 @@
+<html>
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Projekt</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="indeks.html"><img src="images/BZ_logo.png" alt="Logo" class="logo-image" /></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.php">home</a></li>
+                <li><a href="kategorija.php?id=sport">berlin-sport</a></li>
+                <li><a href="kategorija.php?id=kultura">kultur und show</a></li>
+                <li><a href="nav/administracija.html">administracija</a></li>
+                <li><a href="unos.html">unos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="unos">
+        <form name="forma_za_unos" action="skripta.php" method="post" enctype="multipart/form-data">
+            <label for="naslov">Unesi naslov vijesti:</label>
+            <br/>
+            <textarea id="naslov" name="naslov" cols="30"></textarea>
+            <br/><br/>
+            <label for="sazetak">Unesi kratki sažetak vijesti:</label>
+            <br/>
+            <textarea id="sazetak" name="sazetak" rows="10" cols="30"></textarea>
+            <br/><br/>
+            <label for="sadrzaj">Unesi sadrzaj vijesti:</label>
+            <br/>
+            <textarea id="sadrzaj" name="sadrzaj" rows="10" cols="30"></textarea>
+            <br/><br/>
+            <label for="kategorija">Odaberi kategoriju:</label>
+            <select id="kategorija" name="kategorija">
+                <option value="prazan" disabled selected>Odabir</option>
+                <option value="sport">Sport</option>
+                <option value="kultura">Kultura</option>
+                <option value="vijesti">Vijesti</option>
+            </select>
+            <br/><br/>
+            <label for="slika">Unesi sliku:</label>
+            <input type="file" name="slika" id="slika">
+            <br/><br/>
+            <label for="izbor">Da li se obavijest prikazuje na stranici:</label>
+            <input type="checkbox" name="izbor" id="izbor">
+            <br/><br/>
+            <input type="submit" value="Pošalji" name="submit">
+        </form>
+    </section>    
+    <footer> Weitere Online-Angebote der Axel Springer SE:</footer>
+</body>
+
+</html>
