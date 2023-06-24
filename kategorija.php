@@ -30,8 +30,8 @@ if (isset($_GET['id'])) {
             </ul>
         </nav>
     </header>
-    <section class="sport">
-        <a href="nav/sport.html" class="section-link">
+    <section class="<?php echo $kategorija;?>">
+        <a href="#" class="section-link">
             <h2><?php echo $kategorija;?></h2>
         </a>
         <?php

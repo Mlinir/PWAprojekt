@@ -28,7 +28,7 @@ define('PATH', 'images/unos/');
         </nav>
     </header>
     <section class="sport">
-        <a href="nav/sport.html" class="section-link">
+        <a href="kategorija.php?id=sport" class="section-link">
             <h2>berlin-sport ></h2>
         </a>
         <?php
@@ -45,8 +45,8 @@ define('PATH', 'images/unos/');
             }
         ?>
     </section>
-    <section class="kultur">
-        <a href="nav/kultur.html" class="section-link">
+    <section class="kultura">
+        <a href="kategorija.php?id=kultura" class="section-link">
             <h2>kultur und show ></h2>
         </a>
         <?php
