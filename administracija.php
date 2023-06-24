@@ -20,17 +20,20 @@ if (isset($_POST['update'])) {
         $izbor = 'NE';
     }
 
-    $slika = $_FILES['slika'];
-    $imeslike = $_FILES['slika']['name'];
-    $tmpslike = $_FILES['slika']['tmp_name'];
-    $destimages = 'images/unos/' . $imeslike;
-    move_uploaded_file($tmpslike, $destimages);
+    $query = "UPDATE vijesti SET naslov='$naslov', sazetak='$sazetak', tekst='$sadrzaj', kategorija='$kategorija', prikaz_obavijesti='$izbor'";
 
-    $query = "UPDATE vijesti SET naslov='$naslov', sazetak='$sazetak', tekst='$sadrzaj', kategorija='$kategorija', ime_slike='$imeslike', prikaz_obavijesti='$izbor' WHERE id='$id'";
-    $result = mysqli_query($dbc, $query) or
-        die("Error result");
+    if ($_FILES['slika']['error'] === UPLOAD_ERR_OK) {
+        $imeslike = $_FILES['slika']['name'];
+        $tmpslike = $_FILES['slika']['tmp_name'];
+        $destimages = 'images/unos/' . $imeslike;
+        move_uploaded_file($tmpslike, $destimages);
+        $query .= ", ime_slike='$imeslike'";
+    }
+
+    $query .= " WHERE id='$id'";
+
+    $result = mysqli_query($dbc, $query) or die("Error result");
 }
-
 ?>
 
 
@@ -71,7 +74,7 @@ if (isset($_POST['update'])) {
                     <textarea id="sadrzaj" name="sadrzaj" rows="10" cols="30">' . $row['tekst'] . '</textarea><br/>
                     <label for="kategorija">Kategorija:</label><br/>
                     <select id="kategorija" name="kategorija" value="' . $row['kategorija'] . '">
-                        <option value="' .$row['kategorija']. '"disable selected>' . ucfirst($row['kategorija']) . '</option>
+                        <option value="' . $row['kategorija'] . '"disable selected>' . ucfirst($row['kategorija']) . '</option>
                         <option value="sport">Sport</option>
                         <option value="kultura">Kultura</option>
                     </select><br/>
