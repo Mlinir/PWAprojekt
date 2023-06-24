@@ -21,20 +21,28 @@
                 <li><a href="unos.html">unos</a></li>
             </ul>
         </nav>
+        <style>
+            form .error {
+                color: #ff0000;
+            }
+        </style>
     </header>
     <section class="unos">
         <form name="forma_za_unos" action="skripta.php" method="post" enctype="multipart/form-data">
             <label for="naslov">Unesi naslov vijesti:</label>
             <br/>
             <textarea id="naslov" name="naslov" cols="30"></textarea>
+            <span id="porukanaslov" class="error"></span>
             <br/><br/>
             <label for="sazetak">Unesi kratki sažetak vijesti:</label>
             <br/>
             <textarea id="sazetak" name="sazetak" rows="10" cols="30"></textarea>
+            <span id="porukasazetak" class="error"></span>
             <br/><br/>
             <label for="sadrzaj">Unesi sadrzaj vijesti:</label>
             <br/>
             <textarea id="sadrzaj" name="sadrzaj" rows="10" cols="30"></textarea>
+            <span id="porukasadrzaj" class="error"></span>
             <br/><br/>
             <label for="kategorija">Odaberi kategoriju:</label>
             <select id="kategorija" name="kategorija">
@@ -42,17 +50,66 @@
                 <option value="sport">Sport</option>
                 <option value="kultura">Kultura</option>
             </select>
+            <span id="porukakategorija" class="error"></span>
             <br/><br/>
             <label for="slika">Unesi sliku:</label>
             <input type="file" name="slika" id="slika">
+            <span id="porukaslika" class="error"></span>
             <br/><br/>
             <label for="izbor">Da li se vijest arhivira:</label>
             <input type="checkbox" name="izbor" id="izbor">
             <br/><br/>
-            <input type="submit" value="Pošalji" name="submit">
+            <button type="submit" id="gumb" name="submit">Pošalji</button>
         </form>
     </section>    
     <footer> Weitere Online-Angebote der Axel Springer SE:</footer>
+    <script type="text/javascript">
+        document.getElementById("gumb").onclick = function (event) {
+            var slanje_forme = true;
+            
+            var poljenaslova=document.getElementById("naslov");
+            var naslov = document.getElementById("naslov").value;
+            if (naslov.length < 5 || naslov.length > 30) {
+                slanje_forme = false;
+                document.getElementById("porukanaslov").innerHTML = "<br/>Naslov vijesti mora imati 5 do 30 znakova<br>";
+                poljenaslova.style.border="1px solid red";
+            }
+            
+            var poljensazetak=document.getElementById("sazetak");
+            var sazetak=document.getElementById("sazetak").value;
+            if (sazetak.length < 10 || sazetak.length > 100){
+                slanje_forme = false;
+                document.getElementById("porukasazetak").innerHTML = "<br/>Kratki sadržaj vijesti mora imati 10 do 100 znakova<br>";
+                poljensazetak.style.border="1px solid red";
+            }
+      
+            var poljensadrzaj=document.getElementById("sadrzaj");
+            var sadrzaj=document.getElementById("sadrzaj").value;
+            if (sadrzaj.length == 0){
+                slanje_forme = false;
+                document.getElementById("porukasadrzaj").innerHTML = "<br/>Tekst vijesti nesmije biti prazan<br>";
+                poljensadrzaj.style.border="1px solid red";
+            }
+            var poljenkategorija=document.getElementById("kategorija");
+            var kategorija=document.getElementById("kategorija").value;
+            if (document.getElementById("kategorija").selectedIndex == 0){
+                slanje_forme = false;
+                document.getElementById("porukakategorija").innerHTML = "<br/>Kategorija mora biti odabrana<br>";
+                poljenkategorija.style.border="1px solid red";
+            }
+            var poljenslika=document.getElementById("slika");
+            var slika=document.getElementById("slika").value;
+            if (slika.length == 0){
+                slanje_forme = false;
+                document.getElementById("porukaslika").innerHTML = "<br/>Slika mora biti odabrana<br>";
+                poljenslika.style.border="1px solid red";
+            }
+       
+        if (slanje_forme != true) {
+            event.preventDefault();
+        }
+    }
+    </script>
 </body>
 
 </html>
