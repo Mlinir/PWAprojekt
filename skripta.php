@@ -1,6 +1,5 @@
 <?php   
-    $dbc=mysqli_connect('localhost:3307','root','','pwaprojekt') or
-        die ('Error dbc'.mysqli_connect_error());
+    include 'connect.php';
         if (isset($_POST['submit'])) {
             $naslov = $_POST['naslov'];
             $sazetak=$_POST['sazetak'];
@@ -46,7 +45,7 @@
                 <li><a href="index.php">home</a></li>
                 <li><a href="kategorija.php?id=sport">berlin-sport</a></li>
                 <li><a href="kategorija.php?id=kultura">kultur und show</a></li>
-                <li><a href="nav/administracija.html">administracija</a></li>
+                <li><a href="administracija.php">administracija</a></li>
                 <li><a href="unos.html">unos</a></li>
             </ul>
         </nav>

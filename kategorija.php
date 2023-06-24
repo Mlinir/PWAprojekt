@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
                 <li><a href="index.php">home</a></li>
                 <li><a href="kategorija.php?id=sport">berlin-sport</a></li>
                 <li><a href="kategorija.php?id=kultura">kultur und show</a></li>
-                <li><a href="nav/administracija.html">administracija</a></li>
+                <li><a href="administracija.php">administracija</a></li>
                 <li><a href="unos.html">unos</a></li>
             </ul>
         </nav>
