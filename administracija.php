@@ -2,12 +2,34 @@
 include 'connect.php';
 define('PATH', 'images/unos/');
 
-    if(isset($_POST['delete'])){
-        $id=$_POST['id'];
-        $query="DELETE FROM vijesti WHERE id=$id";
-        $result=mysqli_query($dbc,$query) or
+if (isset($_POST['delete'])) {
+    $id = $_POST['id'];
+    $query = "DELETE FROM vijesti WHERE id=$id";
+    $result = mysqli_query($dbc, $query) or
         die("Error result");
+}
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $naslov = $_POST['naslov'];
+    $sazetak = $_POST['sazetak'];
+    $sadrzaj = $_POST['sadrzaj'];
+    $kategorija = $_POST['kategorija'];
+    if (isset($_POST['izbor'])) {
+        $izbor = 'DA';
+    } else {
+        $izbor = 'NE';
     }
+
+    $slika = $_FILES['slika'];
+    $imeslike = $_FILES['slika']['name'];
+    $tmpslike = $_FILES['slika']['tmp_name'];
+    $destimages = 'images/unos/' . $imeslike;
+    move_uploaded_file($tmpslike, $destimages);
+
+    $query = "UPDATE vijesti SET naslov='$naslov', sazetak='$sazetak', tekst='$sadrzaj', kategorija='$kategorija', ime_slike='$imeslike', prikaz_obavijesti='$izbor' WHERE id='$id'";
+    $result = mysqli_query($dbc, $query) or
+        die("Error result");
+}
 
 ?>
 
@@ -49,7 +71,7 @@ define('PATH', 'images/unos/');
                     <textarea id="sadrzaj" name="sadrzaj" rows="10" cols="30">' . $row['tekst'] . '</textarea><br/>
                     <label for="kategorija">Kategorija:</label><br/>
                     <select id="kategorija" name="kategorija" value="' . $row['kategorija'] . '">
-                        <option value="prazan" disabled selected>' . ucfirst($row['kategorija']) . '</option>
+                        <option value="' .$row['kategorija']. '"disable selected>' . ucfirst($row['kategorija']) . '</option>
                         <option value="sport">Sport</option>
                         <option value="kultura">Kultura</option>
                     </select><br/>
@@ -57,11 +79,11 @@ define('PATH', 'images/unos/');
                     <img src="' . PATH . $row['ime_slike'] . '" width=100px><br/>
                     <input type="file" name="slika" id="slika" value="' . $row['ime_slike'] . '"/> <br>
                     <label>Spremljeno u arhivu: </label>';
-                    if ($row['prikaz_obavijesti'] == "DA") {
-                        echo '<input type="checkbox" name="izbor" id="izbor" checked />';
-                    } else {
-                        echo '<input type="checkbox" name="izbor" id="izbor" />';
-                    }
+            if ($row['prikaz_obavijesti'] == "DA") {
+                echo '<input type="checkbox" name="izbor" id="izbor" checked />';
+            } else {
+                echo '<input type="checkbox" name="izbor" id="izbor" />';
+            }
             echo '<br><input type="hidden" name="id" value="' . $row['id'] . '">
                     <button type="reset" value="Poništi">Poništi</button> 
                     <button type="submit" name="update" value="Izmijeni"> Izmijeni</button> 
