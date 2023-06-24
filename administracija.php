@@ -4,7 +4,7 @@ define('PATH', 'images/unos/');
 
     if(isset($_POST['delete'])){
         $id=$_POST['id'];
-        $query="SELECT * FROM vijesti WHERE id=$id";
+        $query="DELETE FROM vijesti WHERE id=$id";
         $result=mysqli_query($dbc,$query) or
         die("Error result");
     }
