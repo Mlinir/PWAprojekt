@@ -3,7 +3,7 @@ include 'connect.php';
 define('PATH', 'images/unos/');
 session_start();
 
-if (isset($_POST['logout'])){
+if (isset($_POST['logout'])) {
     session_destroy();
     header("Location: administracija.php");
     die();
@@ -20,12 +20,14 @@ if (isset($_POST['submit'])) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_store_result($stmt);
     }
-    mysqli_stmt_bind_result($stmt, $hash,$razina);
+    mysqli_stmt_bind_result($stmt, $hash, $razina);
     mysqli_stmt_fetch($stmt);
-    if (password_verify($lozinka,$hash)){
+    if (password_verify($lozinka, $hash)) {
         echo "Uspjesan login";
-        $_SESSION['k_ime']=$k_ime;  
-        $_SESSION['razina']=$razina;
+        $_SESSION['k_ime'] = $k_ime;
+        $_SESSION['razina'] = $razina;
+    }else{
+        echo "Pogrešna lozinka";
     }
 }
 
@@ -126,12 +128,12 @@ if (isset($_POST['update'])) {
                     <button type="submit" name="delete" value="Izbriši"> Izbriši</button>
                 </form>';
                 }
-            }else{
-                echo $_SESSION['k_ime'] .", nemate pravo za pristup administratorskoj stranici.";
+            } else {
+                echo $_SESSION['k_ime'] . ", nemate pravo za pristup administratorskoj stranici.";
+                echo '<form method="post" action="administracija.php">
+                        <button type="submit" name="logout">Odjava</button>
+                    </form>';
             }
-            echo '<form method="post" action="administracija.php">
-            <button type="submit" name="logout">Odjava</button>
-            </form>';
         } else {
 
             echo '<form action="administracija.php" method="post">
