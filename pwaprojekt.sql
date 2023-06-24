@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jun 24, 2023 at 09:25 PM
+-- Generation Time: Jun 24, 2023 at 09:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `pwaprojekt`
 --
+CREATE DATABASE IF NOT EXISTS `pwaprojekt` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `pwaprojekt`;
 
 -- --------------------------------------------------------
 
