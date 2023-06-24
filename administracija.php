@@ -1,6 +1,33 @@
 <?php
 include 'connect.php';
 define('PATH', 'images/unos/');
+session_start();
+
+if (isset($_POST['logout'])){
+    session_destroy();
+    header("Location: administracija.php");
+    die();
+}
+
+if (isset($_POST['submit'])) {
+    $k_ime = $_POST['k_ime'];
+    $lozinka = $_POST['lozinka'];
+
+    $query = "SELECT lozinka,razina FROM korisnik WHERE korisnicko_ime = ?";
+    $stmt = mysqli_stmt_init($dbc);
+    if (mysqli_stmt_prepare($stmt, $query)) {
+        mysqli_stmt_bind_param($stmt, 's', $k_ime);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
+    }
+    mysqli_stmt_bind_result($stmt, $hash,$razina);
+    mysqli_stmt_fetch($stmt);
+    if (password_verify($lozinka,$hash)){
+        echo "Uspjesan login";
+        $_SESSION['k_ime']=$k_ime;  
+        $_SESSION['razina']=$razina;
+    }
+}
 
 if (isset($_POST['delete'])) {
     $id = $_POST['id'];
@@ -62,10 +89,16 @@ if (isset($_POST['update'])) {
         </nav>
     </header>
     <section class="admin">
-        <?php $query = "SELECT * FROM vijesti";
-        $result = mysqli_query($dbc, $query);
-        while ($row = mysqli_fetch_array($result)) {
-            echo '<form enctype="multipart/form-data" action="administracija.php" method="POST">
+        <?php
+        if (isset($_SESSION['k_ime'])) {
+            if ($_SESSION['razina']) {
+                echo '<form method="post" action="administracija.php">
+            <button type="submit" name="logout">Odjava</button>
+            </form>';
+                $query = "SELECT * FROM vijesti";
+                $result = mysqli_query($dbc, $query);
+                while ($row = mysqli_fetch_array($result)) {
+                    echo '<form enctype="multipart/form-data" action="administracija.php" method="POST">
                     <br><label for="naslov">Naslov vijesti:</label><br/>
                     <textarea id="naslov" name="naslov" cols="30">' . $row['naslov'] . '</textarea><br/>
                     <label for="sazetak">Kratki sažetak vijesti:</label><br/>
@@ -82,17 +115,40 @@ if (isset($_POST['update'])) {
                     <img src="' . PATH . $row['ime_slike'] . '" width=100px><br/>
                     <input type="file" name="slika" id="slika" value="' . $row['ime_slike'] . '"/> <br>
                     <label>Spremljeno u arhivu: </label>';
-            if ($row['prikaz_obavijesti'] == "DA") {
-                echo '<input type="checkbox" name="izbor" id="izbor" checked />';
-            } else {
-                echo '<input type="checkbox" name="izbor" id="izbor" />';
-            }
-            echo '<br><input type="hidden" name="id" value="' . $row['id'] . '">
+                    if ($row['prikaz_obavijesti'] == "DA") {
+                        echo '<input type="checkbox" name="izbor" id="izbor" checked />';
+                    } else {
+                        echo '<input type="checkbox" name="izbor" id="izbor" />';
+                    }
+                    echo '<br><input type="hidden" name="id" value="' . $row['id'] . '">
                     <button type="reset" value="Poništi">Poništi</button> 
                     <button type="submit" name="update" value="Izmijeni"> Izmijeni</button> 
                     <button type="submit" name="delete" value="Izbriši"> Izbriši</button>
                 </form>';
-        } ?>
+                }
+            }else{
+                echo $_SESSION['k_ime'] .", nemate pravo za pristup administratorskoj stranici.";
+            }
+            echo '<form method="post" action="administracija.php">
+            <button type="submit" name="logout">Odjava</button>
+            </form>';
+        } else {
+
+            echo '<form action="administracija.php" method="post">
+                    <label for="k_ime">Unesite korisničko ime:</label>
+                    <br />
+                    <input name="k_ime" type="text" />
+                    <br />
+                    <label for="lozinka">Unesite lozinku:</label>
+                    <br />
+                    <input name="lozinka" type="password" />
+                    <br />
+                    <input name="submit" type="submit" value="Pošalji" />
+                </form>';
+
+            echo "<br />Registritajte se na <a href='registracija.php'>Ovom linku</a>";
+        }
+        ?>
     </section>
     <footer> Weitere Online-Angebote der Axel Springer SE:</footer>
 </body>

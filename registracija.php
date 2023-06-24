@@ -1,5 +1,6 @@
 <?php
 include 'connect.php';
+$msg="";
 if (isset($_POST['submit'])) {
     $lozinka = $_POST['lozinka'];
     $lozinka2 = $_POST['lozinka2'];
@@ -25,11 +26,13 @@ if (isset($_POST['submit'])) {
         VALUES (?,?,?,?,?)";
             $stmt = mysqli_stmt_init($dbc);
             if (mysqli_stmt_prepare($stmt, $query)) {
-                mysqli_stmt_bind_param($stmt, 'ssssd', $ime, $prezime, $username, $hashed_password, $razina);
+                mysqli_stmt_bind_param($stmt, 'ssssi', $ime, $prezime, $k_ime, $hash, $razina);
                 mysqli_stmt_execute($stmt);
             }
             echo "Uspješna registracija";
         }
+    }else{
+        echo "Lozinke nisu iste";
     }
 }
 ?>

@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
         </nav>
     </header>
     <section class="registracija">
-        <form action="registracija.php" method="post">
+        <form action="login.php" method="post">
             <label for="k_ime">Unesite korisničko ime:</label>
             <br />
             <input name="k_ime" type="text" />
